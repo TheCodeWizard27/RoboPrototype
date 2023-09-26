@@ -1,14 +1,15 @@
-[gd_scene load_steps=19 format=3 uid="uid://c6at8343wg1fq"]
+[gd_scene load_steps=20 format=3 uid="uid://c6at8343wg1fq"]
 
-[ext_resource type="Script" path="res://source/test_area/test_area.gd" id="1_mjd32"]
-[ext_resource type="Texture2D" uid="uid://crlfpn757yunw" path="res://assets/industrial_sunset_puresky_4k.exr" id="2_ht02g"]
-[ext_resource type="Texture2D" uid="uid://bd8p4frpjonbn" path="res://assets/placeholder1.png" id="3_0tg5a"]
-[ext_resource type="PackedScene" uid="uid://2fun6lriovpf" path="res://source/player/player.tscn" id="3_anu2w"]
-[ext_resource type="PackedScene" uid="uid://8xv0pc7rvola" path="res://source/camera/third_person_camera.tscn" id="3_aynop"]
-[ext_resource type="PackedScene" uid="uid://dpxuccdjfvf5s" path="res://source/camera/first_peson_camera.tscn" id="3_qilui"]
+[ext_resource type="Script" path="res://source/test/test_area/test_area.gd" id="1_ofq0w"]
+[ext_resource type="Texture2D" uid="uid://crlfpn757yunw" path="res://assets/industrial_sunset_puresky_4k.exr" id="2_4agi3"]
+[ext_resource type="PackedScene" uid="uid://dpxuccdjfvf5s" path="res://source/camera/first_peson_camera.tscn" id="3_52hge"]
+[ext_resource type="PackedScene" uid="uid://8xv0pc7rvola" path="res://source/camera/third_person_camera.tscn" id="4_ni2dv"]
+[ext_resource type="PackedScene" uid="uid://2fun6lriovpf" path="res://source/player/player.tscn" id="5_6hql4"]
+[ext_resource type="Texture2D" uid="uid://bd8p4frpjonbn" path="res://assets/placeholder1.png" id="6_upt0w"]
+[ext_resource type="PackedScene" uid="uid://ddh2yro5icl2n" path="res://source/test/terrain_test/terrain_test.tscn" id="7_c035i"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hyq6d"]
-panorama = ExtResource("2_ht02g")
+panorama = ExtResource("2_4agi3")
 
 [sub_resource type="Sky" id="Sky_sot14"]
 sky_material = SubResource("PanoramaSkyMaterial_hyq6d")
@@ -24,7 +25,7 @@ sky = SubResource("Sky_sot14")
 size = Vector3(10, 10, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dr410"]
-albedo_texture = ExtResource("3_0tg5a")
+albedo_texture = ExtResource("6_upt0w")
 uv1_triplanar = true
 texture_filter = 2
 
@@ -36,7 +37,7 @@ size = Vector3(10, 10, 1)
 size = Vector3(50, 1, 50)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ap1u8"]
-albedo_texture = ExtResource("3_0tg5a")
+albedo_texture = ExtResource("6_upt0w")
 uv1_triplanar = true
 texture_filter = 2
 distance_fade_max_distance = 19.85
@@ -53,7 +54,7 @@ size = Vector2(10, 10)
 albedo_texture = SubResource("PlaceholderTexture2D_4qpce")
 
 [node name="test_area" type="Node3D"]
-script = ExtResource("1_mjd32")
+script = ExtResource("1_ofq0w")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vtmhj")
@@ -63,14 +64,14 @@ camera_attributes = SubResource("CameraAttributesPhysical_iucc2")
 transform = Transform3D(0.856845, 0.420684, -0.298063, -0.14072, 0.746992, 0.649769, 0.495998, -0.514808, 0.699255, -39.4346, 50, 50)
 shadow_enabled = true
 
-[node name="FirstPesonCamera" parent="." instance=ExtResource("3_qilui")]
+[node name="FirstPesonCamera" parent="." instance=ExtResource("3_52hge")]
+
+[node name="ThirdPersonCamera" parent="." instance=ExtResource("4_ni2dv")]
 current = true
 
-[node name="ThirdPersonCamera" parent="." instance=ExtResource("3_aynop")]
-
-[node name="Player" parent="." node_paths=PackedStringArray("camera_mount") instance=ExtResource("3_anu2w")]
+[node name="Player" parent="." node_paths=PackedStringArray("camera_mount") instance=ExtResource("5_6hql4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-camera_mount = NodePath("../FirstPesonCamera")
+camera_mount = NodePath("../ThirdPersonCamera")
 
 [node name="Wall2" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.540314, 0.841464, 0, -0.841464, 0.540314, 0, 2.24376, -13.8509)
@@ -104,3 +105,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73938, 1.29596, 4.30487)
 use_collision = true
 size = Vector3(11.4071, 1.3223, 1)
 material = SubResource("ORMMaterial3D_o53kr")
+
+[node name="terrain_test" parent="." instance=ExtResource("7_c035i")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.00817, 0, 0)

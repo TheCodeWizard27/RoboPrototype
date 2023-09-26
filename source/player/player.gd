@@ -2,6 +2,9 @@
 class_name Player
 extends Node3D
 
+const FLOOR_SNAP_ENABLED: float = 1
+const FLOOR_SNAP_DISABLED: float = 0
+
 @export var speed: float = Globals.PLAYER_SPEED
 @export var jump_speed: float = Globals.PLAYER_JUMP_HEIGHT
 @export var turn_threshold: float = 0.2
@@ -9,10 +12,11 @@ extends Node3D
 # TODO theres 100% a better way to clean up this dependency
 @export var camera_mount: Node3D
 
-var _snap_vector: Vector3 = Vector3.DOWN
-
 @onready var _body: CharacterBody3D = $'Body'
 @onready var _state_machine: StateMachine = $'StateMachine'
+
+func _ready():
+	_body.floor_snap_length = FLOOR_SNAP_ENABLED
 
 func _process(delta: float):
 	camera_mount.global_position = _body.global_position
@@ -30,14 +34,14 @@ func _physics_process(delta: float):
 	_body.velocity.z = move_dir.z * speed
 	_body.velocity.y -= Globals.GRAVITY * delta
 	
-	var landed := _body.is_on_floor() and _snap_vector == Vector3.ZERO
+	var landed := _body.is_on_floor() and _body.floor_snap_length == FLOOR_SNAP_DISABLED
 	var jumping := _body.is_on_floor() and Input.is_action_just_pressed(InputHandler.JUMP)
 	
 	if(jumping):
 		_body.velocity.y = jump_speed
-		_snap_vector = Vector3.ZERO
+		_body.floor_snap_length = FLOOR_SNAP_DISABLED
 	elif(landed):
-		_snap_vector = Vector3.DOWN
+		_body.floor_snap_length = FLOOR_SNAP_ENABLED
 	
 	_body.move_and_slide()
 	
@@ -45,5 +49,4 @@ func _physics_process(delta: float):
 		_body.rotation.y = Vector2(_body.velocity.z, _body.velocity.x).angle()
 	
 	_state_machine.physics_process(delta)
-	
 	
