@@ -9,7 +9,6 @@ const FLOOR_SNAP_DISABLED: float = 0
 @export var jump_speed: float = Globals.PLAYER_JUMP_HEIGHT
 @export var turn_threshold: float = 0.2
 
-# TODO theres 100% a better way to clean up this dependency
 @export var camera_mount: Node3D
 
 @onready var _body: CharacterBody3D = $'Body'
@@ -19,12 +18,37 @@ func _ready():
 	_body.floor_snap_length = FLOOR_SNAP_ENABLED
 
 func _process(delta: float):
-	camera_mount.global_position = _body.global_position
-	
+	camera_mount.update_position(_body.global_position)
 	_state_machine.process(delta)
 
 func _physics_process(delta: float):
+	_calc_movement(delta)
+	_state_machine.physics_process(delta)
+	
+func _unhandled_key_input(event: InputEvent):
+	var defaultBody: CollisionShape3D = $Body/DefaultBody
+	var smallBody: CollisionShape3D = $Body/SmallBody
+	
+	if(event.keycode == KEY_F):
+		defaultBody.disabled = true
+		smallBody.disabled = false
+		
+		for node in defaultBody.get_children():
+			node.visible = false
+		
+		for node in smallBody.get_children():
+			node.visible = true
+	if(event.keycode == KEY_R):
+		defaultBody.disabled = false
+		smallBody.disabled = true
+		
+		for node in defaultBody.get_children():
+			node.visible = true
+		
+		for node in smallBody.get_children():
+			node.visible = false
 
+func _calc_movement(delta: float) -> void:
 	var move_dir = Vector3.ZERO
 	move_dir.x = Input.get_action_strength(InputHandler.RIGHT) - Input.get_action_strength(InputHandler.LEFT)
 	move_dir.z = Input.get_action_strength(InputHandler.DOWN) - Input.get_action_strength(InputHandler.UP)
@@ -47,6 +71,3 @@ func _physics_process(delta: float):
 	
 	if(_body.velocity.length() > turn_threshold):
 		_body.rotation.y = Vector2(_body.velocity.z, _body.velocity.x).angle()
-	
-	_state_machine.physics_process(delta)
-	

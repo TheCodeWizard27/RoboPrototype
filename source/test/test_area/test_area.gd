@@ -2,8 +2,8 @@ extends Node3D
 
 
 @onready var _player: Player = $Player
-@onready var _fpsCamera: Camera3D = $FirstPesonCamera
-@onready var _tpCamera: SpringArm3D = $ThirdPersonCamera
+@onready var _fpsCamera: CameraBase = $FirstPersonCamera
+@onready var _tpCamera: CameraBase = $ThirdPersonCamera
 
 func _unhandled_key_input(event: InputEvent):
 	if(event.keycode == KEY_1):

@@ -18,6 +18,12 @@ sky_material = SubResource("PanoramaSkyMaterial_hyq6d")
 background_mode = 2
 background_energy_multiplier = 0.3
 sky = SubResource("Sky_sot14")
+sdfgi_enabled = true
+sdfgi_energy = 4.0
+fog_enabled = true
+fog_light_color = Color(0.368627, 0.54902, 0.85098, 1)
+fog_density = 0.005
+fog_aerial_perspective = 0.639
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_iucc2"]
 
@@ -64,7 +70,7 @@ camera_attributes = SubResource("CameraAttributesPhysical_iucc2")
 transform = Transform3D(0.856845, 0.420684, -0.298063, -0.14072, 0.746992, 0.649769, 0.495998, -0.514808, 0.699255, -39.4346, 50, 50)
 shadow_enabled = true
 
-[node name="FirstPesonCamera" parent="." instance=ExtResource("3_52hge")]
+[node name="FirstPersonCamera" parent="." instance=ExtResource("3_52hge")]
 
 [node name="ThirdPersonCamera" parent="." instance=ExtResource("4_ni2dv")]
 current = true
@@ -72,6 +78,16 @@ current = true
 [node name="Player" parent="." node_paths=PackedStringArray("camera_mount") instance=ExtResource("5_6hql4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 camera_mount = NodePath("../ThirdPersonCamera")
+
+[node name="Wall3" type="StaticBody3D" parent="."]
+transform = Transform3D(-0.00347668, -0.845555, -0.533878, -0.000468706, -0.53388, 0.845562, -0.999994, 0.00318997, 0.00145981, -15.5778, -0.933343, -25.0115)
+
+[node name="Collider" type="CollisionShape3D" parent="Wall3"]
+shape = SubResource("BoxShape3D_k0xww")
+
+[node name="Mesh" type="MeshInstance3D" parent="Wall3"]
+mesh = SubResource("BoxMesh_fmacv")
+skeleton = NodePath("../../Wall3")
 
 [node name="Wall2" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.540314, 0.841464, 0, -0.841464, 0.540314, 0, 2.24376, -13.8509)
@@ -101,7 +117,7 @@ shape = SubResource("BoxShape3D_ovsdk")
 mesh = SubResource("BoxMesh_r1glc")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73938, 1.29596, 4.30487)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73938, 2.6027, 4.30487)
 use_collision = true
 size = Vector3(11.4071, 1.3223, 1)
 material = SubResource("ORMMaterial3D_o53kr")

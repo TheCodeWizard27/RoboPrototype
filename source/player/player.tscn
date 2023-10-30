@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://2fun6lriovpf"]
+[gd_scene load_steps=11 format=3 uid="uid://2fun6lriovpf"]
 
 [ext_resource type="Script" path="res://source/player/player.gd" id="1_echd1"]
 [ext_resource type="Script" path="res://source/state_machine/state_machine.gd" id="1_gvfjm"]
@@ -19,21 +19,35 @@ distance_fade_max_distance = 2.0
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0qkgg"]
 material = SubResource("ORMMaterial3D_28c36")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_fcybe"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_ho4uh"]
+
 [node name="player" type="Node3D"]
 script = ExtResource("1_echd1")
 
 [node name="Body" type="CharacterBody3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Body"]
+[node name="DefaultBody" type="CollisionShape3D" parent="Body"]
 shape = SubResource("CapsuleShape3D_m4yfy")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Body"]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Body/DefaultBody"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.368414, 0.701906)
 mesh = SubResource("CylinderMesh_ifa6n")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Body/DefaultBody"]
+mesh = SubResource("CapsuleMesh_0qkgg")
 skeleton = NodePath("../..")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Body"]
-mesh = SubResource("CapsuleMesh_0qkgg")
+[node name="SmallBody" type="CollisionShape3D" parent="Body"]
+shape = SubResource("SphereShape3D_fcybe")
+disabled = true
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Body/SmallBody"]
+visible = false
+mesh = SubResource("SphereMesh_ho4uh")
+skeleton = NodePath("../..")
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("1_gvfjm")

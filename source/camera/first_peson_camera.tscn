@@ -2,5 +2,7 @@
 
 [ext_resource type="Script" path="res://source/camera/first_peson_camera.gd" id="1_r0fox"]
 
-[node name="FirstPesonCamera" type="Camera3D"]
+[node name="FirstPesonCamera" type="Node3D"]
 script = ExtResource("1_r0fox")
+
+[node name="Camera3D" type="Camera3D" parent="."]

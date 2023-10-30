@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" path="res://source/camera/third_person_camera.gd" id="1_m1oxp"]
 
-[node name="CameraMount" type="SpringArm3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.02936, 0)
-spring_length = 7.0
-margin = 0.2
+[node name="CameraMount" type="Node3D"]
 script = ExtResource("1_m1oxp")
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="CameraMount" type="SpringArm3D" parent="."]
+spring_length = 7.0
+margin = 0.02
+
+[node name="Camera3D" type="Camera3D" parent="CameraMount"]
