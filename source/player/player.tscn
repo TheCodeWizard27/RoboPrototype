@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://2fun6lriovpf"]
+[gd_scene load_steps=12 format=3 uid="uid://2fun6lriovpf"]
 
 [ext_resource type="Script" path="res://source/player/player.gd" id="1_echd1"]
 [ext_resource type="Script" path="res://source/state_machine/state_machine.gd" id="1_gvfjm"]
 [ext_resource type="Script" path="res://source/player/states/on_ground.gd" id="3_4i8ny"]
 [ext_resource type="Script" path="res://source/player/states/in_air.gd" id="3_s4lk5"]
+[ext_resource type="Script" path="res://source/player/states/jumping.gd" id="5_y3b4w"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m4yfy"]
 
@@ -23,7 +24,7 @@ material = SubResource("ORMMaterial3D_28c36")
 
 [sub_resource type="SphereMesh" id="SphereMesh_ho4uh"]
 
-[node name="player" type="Node3D"]
+[node name="Player" type="Node3D"]
 script = ExtResource("1_echd1")
 
 [node name="Body" type="CharacterBody3D" parent="."]
@@ -53,10 +54,17 @@ skeleton = NodePath("../..")
 script = ExtResource("1_gvfjm")
 initial_state = NodePath("OnGround")
 
-[node name="InAir" type="Node" parent="StateMachine" node_paths=PackedStringArray("body")]
+[node name="InAir" type="Node" parent="StateMachine" node_paths=PackedStringArray("body", "player")]
 script = ExtResource("3_s4lk5")
 body = NodePath("../../Body")
+player = NodePath("../..")
 
-[node name="OnGround" type="Node" parent="StateMachine" node_paths=PackedStringArray("body")]
+[node name="OnGround" type="Node" parent="StateMachine" node_paths=PackedStringArray("body", "player")]
 script = ExtResource("3_4i8ny")
 body = NodePath("../../Body")
+player = NodePath("../..")
+
+[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("body", "player")]
+script = ExtResource("5_y3b4w")
+body = NodePath("../../Body")
+player = NodePath("../..")

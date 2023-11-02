@@ -116,6 +116,11 @@ shape = SubResource("BoxShape3D_ovsdk")
 [node name="Mesh" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_r1glc")
 
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.47876, 1, 8.60974)
+use_collision = true
+material = SubResource("ORMMaterial3D_o53kr")
+
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73938, 2.6027, 4.30487)
 use_collision = true

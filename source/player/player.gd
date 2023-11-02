@@ -6,7 +6,7 @@ const FLOOR_SNAP_ENABLED: float = 1
 const FLOOR_SNAP_DISABLED: float = 0
 
 @export var speed: float = Globals.PLAYER_SPEED
-@export var jump_speed: float = Globals.PLAYER_JUMP_HEIGHT
+@export var jump_height: float = Globals.PLAYER_JUMP_STRENGTH
 @export var turn_threshold: float = 0.2
 
 @export var camera_mount: Node3D
@@ -22,33 +22,24 @@ func _process(delta: float):
 	_state_machine.process(delta)
 
 func _physics_process(delta: float):
-	_calc_movement(delta)
 	_state_machine.physics_process(delta)
+	_process_physics(delta)
 	
 func _unhandled_key_input(event: InputEvent):
 	var defaultBody: CollisionShape3D = $Body/DefaultBody
 	var smallBody: CollisionShape3D = $Body/SmallBody
 	
-	if(event.keycode == KEY_F):
-		defaultBody.disabled = true
-		smallBody.disabled = false
+	if(event.keycode == KEY_R && event.is_pressed()):
+		defaultBody.disabled = !defaultBody.disabled
+		smallBody.disabled = !smallBody.disabled
 		
 		for node in defaultBody.get_children():
-			node.visible = false
+			node.visible = !node.visible
 		
 		for node in smallBody.get_children():
-			node.visible = true
-	if(event.keycode == KEY_R):
-		defaultBody.disabled = false
-		smallBody.disabled = true
-		
-		for node in defaultBody.get_children():
-			node.visible = true
-		
-		for node in smallBody.get_children():
-			node.visible = false
+			node.visible = !node.visible
 
-func _calc_movement(delta: float) -> void:
+func process_movement():
 	var move_dir = Vector3.ZERO
 	move_dir.x = Input.get_action_strength(InputHandler.RIGHT) - Input.get_action_strength(InputHandler.LEFT)
 	move_dir.z = Input.get_action_strength(InputHandler.DOWN) - Input.get_action_strength(InputHandler.UP)
@@ -56,16 +47,9 @@ func _calc_movement(delta: float) -> void:
 	
 	_body.velocity.x = move_dir.x * speed
 	_body.velocity.z = move_dir.z * speed
-	_body.velocity.y -= Globals.GRAVITY * delta
-	
-	var landed := _body.is_on_floor() and _body.floor_snap_length == FLOOR_SNAP_DISABLED
-	var jumping := _body.is_on_floor() and Input.is_action_just_pressed(InputHandler.JUMP)
-	
-	if(jumping):
-		_body.velocity.y = jump_speed
-		_body.floor_snap_length = FLOOR_SNAP_DISABLED
-	elif(landed):
-		_body.floor_snap_length = FLOOR_SNAP_ENABLED
+
+func _process_physics(delta: float) -> void:
+	_body.velocity.y -= Globals.GRAVITY * 5 * delta
 	
 	_body.move_and_slide()
 	
