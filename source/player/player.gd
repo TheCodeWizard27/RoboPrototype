@@ -6,7 +6,7 @@ const FLOOR_SNAP_ENABLED: float = 1
 const FLOOR_SNAP_DISABLED: float = 0
 
 @export var speed: float = Globals.PLAYER_SPEED
-@export var jump_height: float = Globals.PLAYER_JUMP_STRENGTH
+@export var jump_height: float = Globals.PLAYER_JUMP_HEIGHT
 @export var turn_threshold: float = 0.2
 
 @export var camera_mount: Node3D
@@ -49,9 +49,8 @@ func process_movement():
 	_body.velocity.z = move_dir.z * speed
 
 func _process_physics(delta: float) -> void:
-	_body.velocity.y -= Globals.GRAVITY * 5 * delta
-	
 	_body.move_and_slide()
 	
 	if(_body.velocity.length() > turn_threshold):
-		_body.rotation.y = Vector2(_body.velocity.z, _body.velocity.x).angle()
+		var target = Quaternion(Vector3.UP, Vector2(_body.velocity.z, _body.velocity.x).angle())
+		_body.basis = _body.basis.slerp(target, 0.5)

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Globals="*res://source/globals.gd"
 InputHandler="*res://source/input_handler.gd"
+Bezier="*res://source/helper/bezier.gd"
 
 [input]
 
