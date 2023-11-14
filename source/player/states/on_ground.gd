@@ -18,5 +18,5 @@ func physics_update(delta: float) -> void:
 		transition_to(PlayerState.JUMPING)
 		return
 	
-	player.process_movement()
+	player.process_movement(delta)
 	

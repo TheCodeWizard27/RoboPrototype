@@ -1,7 +1,7 @@
 
 extends Node
 
-static func cubic_f(start: float, p1: Vector2, p2: Vector2, end: float, t: float) -> float:
+static func cubicf(start: float, p1: Vector2, p2: Vector2, end: float, t: float) -> float:
 	return cubic(Vector2(start, 0), p1, p2, Vector2(end, 0), t).x
 
 static func cubic(p0: Vector2, p1: Vector2, p2: Vector2, p3: Vector2, t: float) -> Vector2:

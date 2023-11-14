@@ -79,6 +79,9 @@ current = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 camera_mount = NodePath("../ThirdPersonCamera")
 
+[node name="StartPos" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.31832, -3.32065)
+
 [node name="Wall3" type="StaticBody3D" parent="."]
 transform = Transform3D(-0.00347668, -0.845555, -0.533878, -0.000468706, -0.53388, 0.845562, -0.999994, 0.00318997, 0.00145981, -15.5778, -0.933343, -25.0115)
 

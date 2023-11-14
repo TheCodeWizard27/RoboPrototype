@@ -9,4 +9,4 @@ func physics_update(delta: float) -> void:
 		transition_to(PlayerState.ON_GROUND)
 		return
 		
-	player.process_movement()
+	player.process_movement(delta, 0.5)
