@@ -12,7 +12,7 @@ extends Node3D
 	get:
 		return Camera.current if Camera else _current
 
-@onready var Camera: Camera3D = $Camera3D
+@onready var Camera: Camera3D
 
 var _current = false
 
@@ -27,7 +27,10 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func update_position(position: Vector3) -> void:
-	global_position = position
+	global_position.y = lerpf(global_position.y, position.y, 0.5)
+	global_position.x = position.x
+	global_position.z = position.z
+#	global_position = position
 
 func _unhandled_input(event: InputEvent) -> void:
 	if(not current):

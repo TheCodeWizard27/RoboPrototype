@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://2fun6lriovpf"]
+[gd_scene load_steps=13 format=3 uid="uid://2fun6lriovpf"]
 
 [ext_resource type="Script" path="res://source/player/player.gd" id="1_echd1"]
 [ext_resource type="Script" path="res://source/state_machine/state_machine.gd" id="1_gvfjm"]
+[ext_resource type="PackedScene" uid="uid://7eluiu4vwo8g" path="res://assets/test_model.tscn" id="2_uugv3"]
 [ext_resource type="Script" path="res://source/player/states/on_ground.gd" id="3_4i8ny"]
 [ext_resource type="Script" path="res://source/player/states/in_air.gd" id="3_s4lk5"]
+[ext_resource type="Script" path="res://source/player/states/jumping.gd" id="5_y3b4w"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m4yfy"]
 
@@ -23,12 +25,13 @@ material = SubResource("ORMMaterial3D_28c36")
 
 [sub_resource type="SphereMesh" id="SphereMesh_ho4uh"]
 
-[node name="player" type="Node3D"]
+[node name="Player" type="Node3D"]
 script = ExtResource("1_echd1")
 
 [node name="Body" type="CharacterBody3D" parent="."]
 
 [node name="DefaultBody" type="CollisionShape3D" parent="Body"]
+visible = false
 shape = SubResource("CapsuleShape3D_m4yfy")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Body/DefaultBody"]
@@ -41,22 +44,32 @@ mesh = SubResource("CapsuleMesh_0qkgg")
 skeleton = NodePath("../..")
 
 [node name="SmallBody" type="CollisionShape3D" parent="Body"]
+visible = false
 shape = SubResource("SphereShape3D_fcybe")
 disabled = true
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="Body/SmallBody"]
-visible = false
 mesh = SubResource("SphereMesh_ho4uh")
 skeleton = NodePath("../..")
+
+[node name="TestModel" parent="Body" instance=ExtResource("2_uugv3")]
+transform = Transform3D(-1.74846e-08, 0, -0.4, -0.0436231, 0.397614, 1.90683e-09, 0.397614, 0.0436231, -1.73803e-08, 0, -1.2, 0)
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("1_gvfjm")
 initial_state = NodePath("OnGround")
 
-[node name="InAir" type="Node" parent="StateMachine" node_paths=PackedStringArray("body")]
+[node name="InAir" type="Node" parent="StateMachine" node_paths=PackedStringArray("body", "player")]
 script = ExtResource("3_s4lk5")
 body = NodePath("../../Body")
+player = NodePath("../..")
 
-[node name="OnGround" type="Node" parent="StateMachine" node_paths=PackedStringArray("body")]
+[node name="OnGround" type="Node" parent="StateMachine" node_paths=PackedStringArray("body", "player")]
 script = ExtResource("3_4i8ny")
 body = NodePath("../../Body")
+player = NodePath("../..")
+
+[node name="Jumping" type="Node" parent="StateMachine" node_paths=PackedStringArray("body", "player")]
+script = ExtResource("5_y3b4w")
+body = NodePath("../../Body")
+player = NodePath("../..")
