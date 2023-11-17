@@ -22,7 +22,7 @@ func physics_update(delta: float) -> void:
 	var relative_time = jump_time / max_jump_time 
 	
 	var jumpStrength = Bezier.cubicf(
-		player.jump_height * 0.5,
+		player.jump_height,
 		Vector2(0,1),
 		Vector2(0,1),
 		player.jump_height, relative_time)

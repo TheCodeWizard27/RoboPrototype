@@ -53,7 +53,7 @@ mesh = SubResource("SphereMesh_ho4uh")
 skeleton = NodePath("../..")
 
 [node name="TestModel" parent="Body" instance=ExtResource("2_uugv3")]
-transform = Transform3D(-1.74846e-08, 0, -0.4, -0.0436231, 0.397614, 1.90683e-09, 0.397614, 0.0436231, -1.73803e-08, 0, -1.2, 0)
+transform = Transform3D(-1.31912e-08, -8.52571e-12, -0.3, -0.0327173, 0.298211, 1.43012e-09, 0.298211, 0.0327173, -1.31134e-08, 0, -1.2, 0)
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("1_gvfjm")

@@ -1,6 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://7eluiu4vwo8g"]
+[gd_scene load_steps=8 format=3 uid="uid://7eluiu4vwo8g"]
 
 [ext_resource type="PackedScene" uid="uid://ccbhdi5y0oiam" path="res://assets/TestModel.glb" id="1_axv0v"]
+[ext_resource type="Texture2D" uid="uid://bd8p4frpjonbn" path="res://assets/placeholder1.png" id="2_a4785"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_awoyr"]
+albedo_texture = ExtResource("2_a4785")
 
 [sub_resource type="Animation" id="Animation_h6o76"]
 resource_name = "Idle"
@@ -104,6 +108,9 @@ tracks/13/path = NodePath("Armature/Skeleton3D:Arm IK L")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/keys = PackedFloat32Array(0, 1, 0.728667, -2.04502, -1.94943)
+
+[sub_resource type="Animation" id="Animation_6tfph"]
+length = 0.001
 
 [sub_resource type="Animation" id="Animation_hkq6t"]
 resource_name = "Walk"
@@ -210,27 +217,31 @@ tracks/13/keys = PackedFloat32Array(0, 1, 0.728667, -2.04502, -1.94943)
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8ss3y"]
 _data = {
 "Idle": SubResource("Animation_h6o76"),
+"RESET": SubResource("Animation_6tfph"),
 "Walk": SubResource("Animation_hkq6t")
 }
 
 [node name="TestModel" instance=ExtResource("1_axv0v")]
-transform = Transform3D(-1.74846e-08, 5.48993e-17, -0.4, -0.0493505, 0.396944, 2.15718e-09, 0.396944, 0.0493505, -1.7351e-08, 0, 0, 0)
+transform = Transform3D(-4.40428e-08, -4.11884e-11, -1, -0.123376, 0.99236, 5.39296e-09, 0.99236, 0.123376, -4.37114e-08, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Armature" index="0"]
 bones/3/rotation = Quaternion(0.565652, -0.0171779, -0.390557, 0.726091)
 bones/4/rotation = Quaternion(0.00219479, -0.00595576, -0.00210808, 0.999978)
 bones/8/rotation = Quaternion(-0.550786, 0.0226293, -0.359828, 0.752759)
 bones/9/rotation = Quaternion(-0.0024566, 0.00468593, -0.00201892, 0.999984)
-bones/11/rotation = Quaternion(-0.543535, 0.242263, 0.294954, 0.747583)
-bones/12/rotation = Quaternion(-0.00679345, 0.0343899, -0.287603, 0.957108)
-bones/13/rotation = Quaternion(0.00728854, 0.00314898, 0.672809, 0.739774)
-bones/14/position = Vector3(2.71917, -4.35578, 0.79013)
+bones/11/rotation = Quaternion(-0.605679, 0.129052, 0.158124, 0.769087)
+bones/12/rotation = Quaternion(-0.0174367, 0.0334266, -0.396614, 0.917211)
+bones/13/rotation = Quaternion(0.00708034, -3.7883e-05, 0.777869, 0.628386)
+bones/14/position = Vector3(1.20647, -4.86873, 0.626047)
 bones/15/position = Vector3(0.757238, -1.59992, 1.57583)
-bones/19/rotation = Quaternion(0.63265, 0.0395351, -0.0490424, 0.771872)
-bones/20/rotation = Quaternion(0.0195625, -0.0323704, -0.459851, 0.88719)
-bones/21/rotation = Quaternion(-0.532303, 0.470672, 0.522464, 0.471331)
-bones/22/position = Vector3(-0.829025, -4.77074, -0.665295)
+bones/19/rotation = Quaternion(0.602103, -0.133039, 0.162775, 0.770245)
+bones/20/rotation = Quaternion(0.0166831, -0.0332847, -0.411577, 0.910614)
+bones/21/rotation = Quaternion(-0.577138, 0.41573, 0.566148, 0.416601)
+bones/22/position = Vector3(1.20674, -4.78315, -0.669604)
 bones/23/position = Vector3(0.728667, -2.04502, -1.94943)
+
+[node name="Cube" parent="Armature/Skeleton3D" index="0"]
+surface_material_override/0 = SubResource("ORMMaterial3D_awoyr")
 
 [node name="AnimationPlayer" parent="." index="1"]
 libraries = {
