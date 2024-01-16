@@ -70,7 +70,7 @@ func _process_physics(delta: float) -> void:
 	
 	if(movement.length() > turn_threshold):
 		var target = Quaternion(Vector3.UP, Vector2(_body.velocity.z, _body.velocity.x).angle())
-		_body.basis = _body.basis.slerp(target, 0.5)
+		_body.basis = _body.basis.slerp(target, 0.2)
 		
 func _on_animation_finished(animation: String) -> void:
 	if(animation == "Walk"):
