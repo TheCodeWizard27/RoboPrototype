@@ -1,8 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpxuccdjfvf5s"]
+[gd_scene load_steps=4 format=3 uid="uid://dpxuccdjfvf5s"]
 
 [ext_resource type="Script" path="res://source/camera/first_peson_camera.gd" id="1_r0fox"]
+[ext_resource type="PackedScene" uid="uid://u6c57l46vppa" path="res://source/camera/control.tscn" id="2_y2x1e"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1e4kh"]
+viewport_path = NodePath("Node3D/SubViewport")
 
 [node name="FirstPesonCamera" type="Node3D"]
 script = ExtResource("1_r0fox")
 
 [node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25882, 0)
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.424312, 0.919543, 0)
+
+[node name="Sprite3D" type="Sprite3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.29624)
+cast_shadow = 0
+pixel_size = 0.005
+no_depth_test = true
+texture = SubResource("ViewportTexture_1e4kh")
+
+[node name="SubViewport" type="SubViewport" parent="Node3D"]
+transparent_bg = true
+gui_disable_input = true
+
+[node name="Control" parent="Node3D/SubViewport" instance=ExtResource("2_y2x1e")]

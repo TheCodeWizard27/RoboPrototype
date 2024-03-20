@@ -8,6 +8,12 @@ func enter(msg: Dictionary = {}) -> void:
 #	if(landed):
 #		body.floor_snap_length = Player.FLOOR_SNAP_ENABLED
 
+func exit() -> void:
+	player.set_walking_animation(0)
+
+func update(delta: float) -> void:
+	player.process_movement_animation()
+
 func physics_update(delta: float) -> void:
 	
 	if(not body.is_on_floor()):

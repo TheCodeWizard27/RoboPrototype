@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://7eluiu4vwo8g"]
+[gd_scene load_steps=10 format=3 uid="uid://7eluiu4vwo8g"]
 
 [ext_resource type="PackedScene" uid="uid://ccbhdi5y0oiam" path="res://assets/TestModel.glb" id="1_axv0v"]
 
@@ -108,6 +108,7 @@ tracks/13/keys = PackedFloat32Array(0, 1, 0.728667, -2.04502, -1.94943)
 [sub_resource type="Animation" id="Animation_hkq6t"]
 resource_name = "Walk"
 length = 2.0
+loop_mode = 1
 tracks/0/type = "rotation_3d"
 tracks/0/imported = true
 tracks/0/enabled = true
@@ -213,6 +214,30 @@ _data = {
 "Walk": SubResource("Animation_hkq6t")
 }
 
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_i6epj"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vl3ja"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_1s20g"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_daiu5"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_vl3ja")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_1s20g")
+blend_point_1/pos = 1.0
+min_space = 0.0
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_jfs8v"]
+graph_offset = Vector2(-181.569, 4.67563)
+nodes/WalkSpeed/node = SubResource("AnimationNodeTimeScale_i6epj")
+nodes/WalkSpeed/position = Vector2(300, 40)
+nodes/WalkingAnimation/node = SubResource("AnimationNodeBlendSpace1D_daiu5")
+nodes/WalkingAnimation/position = Vector2(60, 40)
+nodes/output/position = Vector2(500, 80)
+node_connections = [&"WalkSpeed", 0, &"WalkingAnimation", &"output", 0, &"WalkSpeed"]
+
 [node name="TestModel" instance=ExtResource("1_axv0v")]
 transform = Transform3D(-1.74846e-08, 5.48993e-17, -0.4, -0.0493505, 0.396944, 2.15718e-09, 0.396944, 0.0493505, -1.7351e-08, 0, 0, 0)
 
@@ -221,18 +246,27 @@ bones/3/rotation = Quaternion(0.565652, -0.0171779, -0.390557, 0.726091)
 bones/4/rotation = Quaternion(0.00219479, -0.00595576, -0.00210808, 0.999978)
 bones/8/rotation = Quaternion(-0.550786, 0.0226293, -0.359828, 0.752759)
 bones/9/rotation = Quaternion(-0.0024566, 0.00468593, -0.00201892, 0.999984)
-bones/11/rotation = Quaternion(-0.543535, 0.242263, 0.294954, 0.747583)
-bones/12/rotation = Quaternion(-0.00679345, 0.0343899, -0.287603, 0.957108)
-bones/13/rotation = Quaternion(0.00728854, 0.00314898, 0.672809, 0.739774)
-bones/14/position = Vector3(2.71917, -4.35578, 0.79013)
+bones/11/rotation = Quaternion(-0.605679, 0.129052, 0.158124, 0.769087)
+bones/12/rotation = Quaternion(-0.0174367, 0.0334266, -0.396614, 0.917211)
+bones/13/rotation = Quaternion(0.00708034, -3.78828e-05, 0.777869, 0.628386)
+bones/14/position = Vector3(1.20647, -4.86873, 0.626047)
 bones/15/position = Vector3(0.757238, -1.59992, 1.57583)
-bones/19/rotation = Quaternion(0.63265, 0.0395351, -0.0490424, 0.771872)
-bones/20/rotation = Quaternion(0.0195625, -0.0323704, -0.459851, 0.88719)
-bones/21/rotation = Quaternion(0.532303, -0.470672, -0.522464, -0.471331)
-bones/22/position = Vector3(-0.829025, -4.77074, -0.665295)
+bones/19/rotation = Quaternion(0.602103, -0.133039, 0.162775, 0.770245)
+bones/20/rotation = Quaternion(0.0166831, -0.0332847, -0.411577, 0.910614)
+bones/21/rotation = Quaternion(0.577138, -0.41573, -0.566148, -0.416601)
+bones/22/position = Vector3(1.20674, -4.78315, -0.669604)
 bones/23/position = Vector3(0.728667, -2.04502, -1.94943)
 
 [node name="AnimationPlayer" parent="." index="1"]
 libraries = {
 "": SubResource("AnimationLibrary_8ss3y")
 }
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_8ss3y")
+}
+tree_root = SubResource("AnimationNodeBlendTree_jfs8v")
+anim_player = NodePath("../AnimationPlayer")
+parameters/WalkSpeed/scale = 10.0
+parameters/WalkingAnimation/blend_position = 0.0
